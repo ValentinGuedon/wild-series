@@ -1,9 +1,33 @@
 @import "~bootstrap/scss/bootstrap";
 
-$primary: brown;
-$secondary: aqua;
-$tertiary: beige;
+$primary-color: #A583DB;
+$secondary-color: #d153a1;
+$tertiary-color: #d6d4c7;
+$quaternary-color: aqua;
 
 body {
-    background-color: grey;
+    background-color: $tertiary-color;
+}
+
+nav {
+    background-color: $primary-color;
+}
+
+a {
+    color: $secondary-color;
+    margin-left: 20px;
+}
+
+a:hover,
+a:focus {
+    color: #a74381;
+}
+
+h1,
+h2 {
+    margin: 20px;
+}
+
+p {
+    margin-left: 20px;
 }

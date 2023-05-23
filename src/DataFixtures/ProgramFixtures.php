@@ -18,14 +18,14 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($program);
 
         $program2 = new Program();
-        $program2->setTitle('Tchouppi');
+        $program2->setTitle('Tchoupi');
         $program2->setSynopsis('Je ne sais même pas quel animal c\'est');
         $program2->setCategory($this->getReference('category_Animation'));
         $manager->persist($program2);
 
         $program3 = new Program();
         $program3->setTitle('The Witcher');
-        $program3->setSynopsis('Des mecs musclés et des meufs à poil');
+        $program3->setSynopsis('Des mucles seyants et des grosses épées!');
         $program3->setCategory($this->getReference('category_Aventure'));
         $manager->persist($program3);
 
