@@ -6,24 +6,25 @@ use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class CategoryFixtures extends Fixture
+class CategoryFixtures extends Fixture 
 {
-    public const CATEGORIES = [
+    const CATEGORIES = [
         'Action',
         'Aventure',
         'Animation',
         'Fantastique',
         'Horreur',
-
     ];
+
     public function load(ObjectManager $manager)
     {
-        foreach (self::CATEGORIES as $categoryName) {
-            $category = new Category();
-            $category->setName($categoryName);
-            $manager->persist($category);
-            $this->addReference('category_' . $categoryName, $category);
-        }
-        $manager->flush();
+       foreach (self::CATEGORIES as $key => $CategoryName){
+        $category = new Category();
+        $category->setName($CategoryName);
+        $manager->persist($category);
+
+        $this->addReference('category_' . $CategoryName, $category);
+       }
+       $manager->flush();
     }
 }

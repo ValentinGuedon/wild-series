@@ -4,14 +4,13 @@
 
 {% block body %}
 
-<h1>Catégorie : {{ category.name }}</h1>
-<h2>Séries :</h2>
+<h1>Séries de la catégorie {{ category.name }}:</h1>
     {% if programs|length > 0 %}
         <ul>
             {% for program in programs %}
-                <li>{{ program.title }}</li>
-                <li>ID : {{ program.id }} </li>
-                <li>Résumé : {{ program.synopsis }}</li>
+                <li><b>Titre: </b>{{ program.title }}</li>
+                <li><b>ID série: </b>{{ program.id }} </li>
+                <li><b>Résumé: </b><br>{{ program.synopsis }}</li>
                  <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
             {% endfor %}
         </ul>

@@ -9,25 +9,41 @@ body {
     background-color: $tertiary-color;
 }
 
+main {
+    margin-left: 20px;
+}
+
 nav {
     background-color: $primary-color;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+hr {
+    margin-left: -20px;
+}
+
+
+
 a {
     color: $secondary-color;
-    margin-left: 20px;
+    text-decoration: none;
 }
 
 a:hover,
 a:focus {
     color: #a74381;
-}
-
-h1,
-h2 {
-    margin: 20px;
-}
-
-p {
-    margin-left: 20px;
+    text-decoration: none;
 }
