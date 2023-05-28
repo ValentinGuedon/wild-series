@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[Assert\EnableAutoMapping]
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
+#[UniqueEntity('title', message: 'Ce titre existe déjà.')]
 class Program
 {
     #[ORM\Id]
@@ -17,9 +20,21 @@ class Program
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner le titre.')]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le titre est trop long, il doit faire {{ limit }} caractères maximum',
+    )]
+    #[Assert\Regex(
+        pattern: '/plus belle la vie/i',
+        match: false,
+        message: "On a pas les droits."
+    )]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Veuillez renseigner le synopsis.')]
+    
     private ?string $synopsis = null;
 
     #[ORM\Column(length: 255, nullable: true)]
