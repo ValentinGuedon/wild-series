@@ -14,13 +14,19 @@ use App\Repository\EpisodeRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use App\Form\ProgramType;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(ProgramRepository $programRepository): Response
+    public function index(ProgramRepository $programRepository, RequestStack $requestStack): Response
     {
+        $session = $requestStack->getSession();
+        if (!$session->has('total')) {
+        $session->set('total', 0);
+    }
+         $total = $session->get('total');
          $programs = $programRepository->findAll();
 
          return $this->render(
@@ -30,18 +36,21 @@ class ProgramController extends AbstractController
     }
 
 
-    #[Route('/new', name: 'new')]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProgramRepository $programRepository): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $programRepository->save($program, true);
+            $this->addFlash('success', 'The new program has been created');
             return $this->redirectToRoute('program_index');
         }
         
         return $this->render('program/new.html.twig', [
+            'program' => $program,
             'form' => $form,
         ]);
     }
@@ -84,9 +93,4 @@ class ProgramController extends AbstractController
             'season' => $season,
         ]);
     }
-    
-
-
-    
-
 }

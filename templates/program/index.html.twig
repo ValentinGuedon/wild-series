@@ -4,6 +4,7 @@
 
 {% block body %}
     <h1>Toutes nos séries: </h1>
+    {# {{ app.session.get('total') }} #}
       {% for program in programs %}
         <div><img src="{{program.poster}}" alt="poster"></div>
         <div>
