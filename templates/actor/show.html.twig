@@ -1,7 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Episode{% endblock %}
+{% block title %}Acteur - séries{% endblock %}
 
 {% block body %}
-             {{ Actor.name }}
+
+<h1>Séries de {{actor.name}}</h1>
+
+{% for program in actor.programs %}
+    <a href="{{ path('program_show', { 'id': program.id }) }}">{{ program.title }}</a>
+    <br>
+{% else %}
+    <p>Aucune série trouvée.</p>
+{% endfor %}
+
 {% endblock %}
