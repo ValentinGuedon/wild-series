@@ -1,0 +1,14 @@
+{% extends "layoutEmail.html.twig" %}
+
+{% block emailTitle %}
+    {{ episode.title }}
+{% endblock %}
+
+{% block itemTitle %}
+The episode:
+    <b>{{ episode.title }}</b>
+{% endblock %}
+
+{% block itemSynopsis %}
+    {{ episode.synopsis }}
+{% endblock %}

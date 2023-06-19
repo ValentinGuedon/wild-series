@@ -23,8 +23,12 @@
                 <td>{{ episode.number }}</td>
                 <td>{{ episode.synopsis }}</td>
                 <td>
-                    <a href="{{ path('app_episode_show', {'slug': episode.slug}) }}">show</a>
-                    <a href="{{ path('app_episode_edit', {'slug': episode.slug}) }}">edit</a>
+                    {% if episode.slug is not empty %}
+                        <a href="{{ path('app_episode_show', {'slug': episode.slug}) }}">show</a>
+                        <a href="{{ path('app_episode_edit', {'slug': episode.slug}) }}">edit</a>
+                    {% else %}
+                        N/A
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

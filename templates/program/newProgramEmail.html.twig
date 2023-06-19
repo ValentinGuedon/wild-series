@@ -1,0 +1,12 @@
+{% extends "layoutEmail.html.twig" %}
+
+{% block emailTitle %}
+	{{ program.title }}
+{% endblock %}
+{% block itemTitle %}
+	program:
+	{{ program.title }}
+{% endblock %}
+{% block itemSynopsis %}
+	{{program.synopsis }}
+{% endblock %}

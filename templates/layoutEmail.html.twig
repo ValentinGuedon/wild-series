@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>{% block title %}New Program{% endblock %}</title>
+	</head>
+	<body>
+		<h1>New program{% block emailTitle %}{% endblock %}created</h1>
+		<h3>Hello,</h3>
+        {% block itemTitle %}{% endblock %} has been created on <b>Wild Series</b></p>
+		<p><b>Synopsis:</b> {% block itemSynopsis %}{% endblock %} </p>
+	</body>
+</html>
