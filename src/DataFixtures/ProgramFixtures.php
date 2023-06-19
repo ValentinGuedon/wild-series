@@ -7,16 +7,26 @@ use App\Entity\Program;
 use App\DataFixtures\CategoryFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
+
+    private SluggerInterface $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+    
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
         for ($i = 0; $i < 50; $i++) {
             $program = new Program();
             $program->setTitle($faker->sentence());
+            $program->setSlug($this->slugger->slug($program->getTitle()));
             $program->setSynopsis($faker->paragraphs(3, true));
             $program->setCountry($faker->country());
             $program->setYear($faker->year());

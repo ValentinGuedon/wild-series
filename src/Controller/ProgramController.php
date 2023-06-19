@@ -4,17 +4,19 @@ namespace App\Controller;
 use App\Entity\Season;
 use App\Entity\Episode;
 use App\Entity\Program;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\ProgramType;
+use App\Service\ProgramDuration;
+use App\Repository\SeasonRepository;
+use App\Repository\EpisodeRepository;
+use App\Repository\ProgramRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\ProgramRepository;
-use App\Repository\SeasonRepository;
-use App\Repository\EpisodeRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use App\Form\ProgramType;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -37,13 +39,16 @@ class ProgramController extends AbstractController
 
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProgramRepository $programRepository): Response
+    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
+
             $programRepository->save($program, true);
             $this->addFlash('success', 'The new program has been created');
             return $this->redirectToRoute('program_index');
@@ -55,21 +60,23 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{program}', name: 'show')]
-    public function show(Program $program): Response
+    #[Route('/{slug}', methods: ['GET'], name: 'show')]
+    public function show(Program $program, ProgramRepository $programRepository, ProgramDuration $programDuration): Response
     {
         if (!$program) {
             throw $this->createNotFoundException(
                 'No program found in program\'s table.'
             );
         }
-
+        
+        $duration = $programDuration->calculate($program);
         return $this->render('program/show.html.twig', [
-            'program' => $program,
+            'program' => $program,  
+            'duration' => $duration, 
         ]);
     }
 
-#[Route('/{programId<^[0-9]+$>}/season/{seasonId<^[0-9]+$>}', name: 'season_show')]
+#[Route('/{slug}/season/{seasonId<^[0-9]+$>}', name: 'season_show')]
     public function showSeason(int $programId, int $seasonId, ProgramRepository $programRepository, SeasonRepository $seasonRepository, EpisodeRepository $episodeRepository): Response
     
     {
