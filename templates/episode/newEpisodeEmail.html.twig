@@ -5,10 +5,15 @@
 {% endblock %}
 
 {% block itemTitle %}
-The episode:
-    <b>{{ episode.title }}</b>
+<p>L'épisode: <b>{{ episode.title }}</b> </p>
+<p>Numéro: <b>{{ episode.number }}</b> </p>
+<p>De la série: <b>{{ episode.season.program.title }}</b></p>
 {% endblock %}
 
 {% block itemSynopsis %}
     {{ episode.synopsis }}
+{% endblock %}
+
+{% block itemLink %}
+   <p>lien vers l'épisode <a href="http://127.0.0.1:8000{{ path('app_episode_show', {slug: episode.slug}) }}">Voir</a></p>
 {% endblock %}
