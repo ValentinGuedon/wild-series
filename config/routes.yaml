@@ -2,9 +2,9 @@ controllers:
     resource: '../src/Controller/'
     type: attribute
 
-program_show:
-    path: '/program/{id<\d+>}'
-    controller: 'App\Controller\ProgramController::show'
-    methods: GET
-    requirements:
-        id: '\d+'
+# program_show:
+#     path: '/program/{slug}'
+#     controller: 'App\Controller\ProgramController::show'
+    # methods: GET
+    # requirements:
+    #     id: '\d+'

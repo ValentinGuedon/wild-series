@@ -75,29 +75,27 @@ class ProgramController extends AbstractController
             'duration' => $duration, 
         ]);
     }
-
-#[Route('/{slug}/season/{seasonId<^[0-9]+$>}', name: 'season_show')]
-    public function showSeason(int $programId, int $seasonId, ProgramRepository $programRepository, SeasonRepository $seasonRepository, EpisodeRepository $episodeRepository): Response
     
-    {
-        $program = $programRepository->findOneBy(['id' => $programId]);
-        $season = $seasonRepository->findOneBy(['id' => $seasonId]);
-        $episodes = $episodeRepository->findBy(['season'=> $season]);
+#[Route('/{slug}/season/{season}', name: 'season_show')]
+public function showSeason(Program $program, Season $season, EpisodeRepository $episodeRepository): Response
+{
+    $episodes = $episodeRepository->findBy(['season' => $season]);
 
-        return $this->render('program/season_show.html.twig', [
-            'program' => $program,
-            'season' => $season,
-            'episodes' => $episodes,
-        ]);
-    }
+    return $this->render('program/season_show.html.twig', [
+        'program' => $program,
+        'season' => $season,
+        'episodes' => $episodes,
+    ]); 
+}
 
-    #[Route('/{program<^[0-9]+$>}/season/{season<^[0-9]+$>}/episode/{episode<^[0-9]+$>}', name: 'episode_show')]
-    public function showEpisode(Program $program, Season $season, Episode $episode): Response
-    {
-        return $this->render('program/episode_show.html.twig', [
-            'episode' => $episode,
-            'program' => $program,
-            'season' => $season,
-        ]);
-    }
+#[Route('/{slug}/season/{season}/episode/{episode}', name: 'episode_show')]
+#[Entity('episode', options: ['mapping' => ['episode' => 'slug']])]
+public function showEpisode(Program $program, Season $season, Episode $episode): Response
+{
+    return $this->render('program/episode_show.html.twig', [
+        'episode' => $episode,
+        'program' => $program,
+        'season' => $season,
+    ]);
+}
 }
